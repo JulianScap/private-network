@@ -3,6 +3,10 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "dev-container",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "forwardPorts": [
+        5173,
+        51055
+    ],
     "customizations": {
         "vscode": {
             "settings": {
@@ -14,7 +18,15 @@
                     "zsh": {
                         "path": "/bin/zsh"
                     }
-                }
+                },
+                "cSpell.userWords": [
+                  "pinia",
+                  "rushstack",
+                  "dbaeumer",
+                  "azuretools",
+                  "esbenp",
+                  "linebreak"
+                ]
             },
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
