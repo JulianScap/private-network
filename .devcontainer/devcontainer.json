@@ -9,7 +9,7 @@
                 "files.eol": "\n",
                 "files.insertFinalNewline": true,
                 "files.trimFinalNewlines": true,
-                "terminal.integrated.defaultProfile.linux": "zsh", 
+                "terminal.integrated.defaultProfile.linux": "zsh",
                 "terminal.integrated.profiles.linux": {
                     "zsh": {
                         "path": "/bin/zsh"
@@ -19,7 +19,10 @@
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
                 "ms-azuretools.vscode-docker",
-                "dbaeumer.vscode-eslint"
+                "dbaeumer.vscode-eslint",
+                "vue.volar",
+                "vue.vscode-typescript-vue-plugin",
+                "esbenp.prettier-vscode"
             ]
         }
     }
