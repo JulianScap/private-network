@@ -1,0 +1,9 @@
+{
+  "name": "private-network",
+  "version": "0.0.0",
+  "description": "This is going nowhere",
+  "main": "index.js",
+  "repository": "https://github.com/JulianScap/private-network.git",
+  "author": "Julian Adler <julian.dot.adler@gmail.com>",
+  "license": "unlicense"
+}

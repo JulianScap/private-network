@@ -1,0 +1,16 @@
+services:
+  dev-container:
+    container_name: PrivateNetwork
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "Getting git alias file"
+        curl https://raw.githubusercontent.com/GitAlias/gitalias/main/gitalias.txt -o /home/node/.gitalias
+        echo "Ready !"
+        sleep infinity
+    volumes:
+      - ../..:/workspaces:cached
