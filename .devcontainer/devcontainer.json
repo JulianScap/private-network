@@ -25,7 +25,8 @@
                   "dbaeumer",
                   "azuretools",
                   "esbenp",
-                  "linebreak"
+                  "linebreak",
+                  "devcontainer"
                 ]
             },
             "extensions": [

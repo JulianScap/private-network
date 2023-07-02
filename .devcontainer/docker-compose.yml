@@ -12,4 +12,3 @@ services:
         sleep infinity
     volumes:
       - ../..:/workspaces:cached
-      - ${PATH_TO_HOSTS_YML}:/home/node/.config/gh/hosts.yml:ro
