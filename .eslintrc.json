@@ -18,6 +18,7 @@
         "vue"
     ],
     "rules": {
+        "eqeqeq": "error",
         "indent": [
             "error",
             2
