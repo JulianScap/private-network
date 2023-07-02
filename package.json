@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "concurrently \"yarn run fe\" \"yarn run be\"",
     "fe": "vite",
-    "be": "nodemon src/server/index.js",
+    "be": "nodemon --legacy-watch --watch src/server src/server/index.js",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
