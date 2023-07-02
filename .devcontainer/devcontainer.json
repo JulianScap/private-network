@@ -26,7 +26,10 @@
                   "azuretools",
                   "esbenp",
                   "linebreak",
-                  "devcontainer"
+                  "devcontainer",
+                  "pubout",
+                  "outform",
+                  "bodyparser"
                 ]
             },
             "extensions": [
