@@ -8,9 +8,9 @@
   "author": "Julian Adler <julian.dot.adler@gmail.com>",
   "license": "Unlicense",
   "scripts": {
-    "dev": "concurrently \"yarn run fe\" \"yarn run be\"",
-    "fe": "vite",
-    "be": "nodemon --legacy-watch --watch src/server src/server/index.js",
+    "dev": "concurrently \"yarn run frontend:dev\" \"yarn run backend:dev\"",
+    "frontend:dev": "vite",
+    "backend:dev": "nodemon --legacy-watch --watch src/server src/server/index.js",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
