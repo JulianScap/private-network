@@ -1,3 +1,4 @@
+version: "3.8"
 services:
   dev-container:
     container_name: PrivateNetwork
@@ -8,9 +9,7 @@ services:
       - /bin/sh
       - -c
       - |
-        echo "Getting git alias file"
-        curl https://raw.githubusercontent.com/GitAlias/gitalias/main/gitalias.txt -o /home/node/.gitalias
-        echo "Ready !"
         sleep infinity
     volumes:
       - ../..:/workspaces:cached
+      - ~/AppData/Roaming/GitHub CLI/hosts.yml:/home/node/.config/gh/hosts.yml:ro
