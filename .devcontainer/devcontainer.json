@@ -31,7 +31,10 @@
                   "pubout",
                   "outform",
                   "bodyparser"
-                ]
+                ],
+                "[vue]": {
+                  "editor.defaultFormatter": "Vue.volar"
+                }
             },
             "extensions": [
                 "streetsidesoftware.code-spell-checker",
