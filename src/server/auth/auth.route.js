@@ -4,7 +4,7 @@ import { generateToken } from './generateToken.js';
 import { Ok, badRequest } from '../common/response.js';
 
 const router = new Router({
-  prefix: '/auth'
+  prefix: '/auth',
 });
 
 router.post('/', (context) => {

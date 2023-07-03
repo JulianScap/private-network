@@ -3,18 +3,18 @@ const toResponse = (body, message, error) => {
   if (typeof body === 'string') {
     return {
       error,
-      message: body
+      message: body,
     };
   } else if (type === 'undefined') {
     return {
       error,
-      message: message || 'Something did not happen as expected'
+      message: message || 'Something did not happen as expected',
     };
   } else {
     return {
       error,
       message,
-      body
+      body,
     };
   }
 };

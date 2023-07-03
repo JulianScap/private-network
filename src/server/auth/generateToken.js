@@ -19,10 +19,10 @@ export const generateToken = (login) => {
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before
     jti: randomUUID(),
-    data: { some: 'information' }
+    data: { some: 'information' },
   };
 
   return jwt.sign(data, privateKey, {
-    algorithm: 'RS512'
+    algorithm: 'RS512',
   });
 };
