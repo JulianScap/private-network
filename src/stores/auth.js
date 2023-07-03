@@ -1,9 +1,11 @@
 import { ref, readonly } from 'vue';
 import { defineStore } from 'pinia';
+import { useCurrentUser } from './currentUser.js';
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref({
-    status: 'Logged out',
+  const currentUser = useCurrentUser();
+  const status = ref({
+    connected: false,
   });
 
   async function login(credentials) {
@@ -17,19 +19,20 @@ export const useAuthStore = defineStore('auth', () => {
 
     const { error, body } = response;
     if (!error) {
-      user.value = {
-        ...body.user,
-        status: 'Logged in',
-      };
+      const { bearer, user } = body;
+
+      status.value.connected = true;
+      currentUser.setUser(user);
+      sessionStorage.setItem('bearer', bearer);
     } else {
-      user.value = {
-        status: 'Logged out',
-      };
+      status.value.connected = false;
+      sessionStorage.removeItem('bearer');
+      currentUser.clearUser();
     }
   }
 
   return {
     login,
-    user: readonly(user),
+    status: readonly(status),
   };
 });
