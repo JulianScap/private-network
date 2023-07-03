@@ -30,7 +30,9 @@
                   "devcontainer",
                   "pubout",
                   "outform",
-                  "bodyparser"
+                  "bodyparser",
+                  "popperjs",
+                  "anbuselvanrocky"
                 ],
                 "[vue]": {
                   "editor.defaultFormatter": "Vue.volar"
@@ -42,7 +44,8 @@
                 "dbaeumer.vscode-eslint",
                 "vue.volar",
                 "vue.vscode-typescript-vue-plugin",
-                "esbenp.prettier-vscode"
+                "esbenp.prettier-vscode",
+                "anbuselvanrocky.bootstrap5-vscode"
             ]
         }
     }

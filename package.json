@@ -7,6 +7,9 @@
   "repository": "https://github.com/JulianScap/private-network.git",
   "author": "Julian Adler <julian.dot.adler@gmail.com>",
   "license": "Unlicense",
+  "engines": {
+    "node": "20.3.0"
+  },
   "scripts": {
     "dev": "concurrently \"yarn run frontend:dev\" \"yarn run backend:dev\"",
     "frontend:dev": "vite",

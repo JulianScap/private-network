@@ -1,9 +1,11 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+//import { RouterLink, RouterView } from 'vue-router';
+import AuthComponent from '@/views/AuthComponent.vue';
 </script>
 
 <template>
-  <header>
+  <AuthComponent />
+  <!-- <header>
     <div class="wrapper">
       <button class="btn btn-primary" data-bs-target="#collapseTarget" data-bs-toggle="collapse">
         Bootstrap collapse
@@ -19,5 +21,5 @@ import { RouterLink, RouterView } from 'vue-router';
     </div>
   </header>
 
-  <RouterView />
+  <RouterView /> -->
 </template>
