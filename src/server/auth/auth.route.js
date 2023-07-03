@@ -9,9 +9,15 @@ const router = new Router({
 
 router.post('/', (context) => {
   const { login, password } = context.request.body;
+  console.log(context.request.body);
 
   if (login === 'juju' && password === '1234') {
-    Ok(context, { bearer: generateToken(login) });
+    Ok(context, {
+      bearer: generateToken(login),
+      user: {
+        name: 'Julian'
+      }
+    });
   } else {
     badRequest(context, 'Authentication failed');
   }

@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, readonly } from 'vue';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -7,14 +7,29 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   async function login(credentials) {
-    user.value = {
-      name: credentials.login,
-      status: 'Logged in',
-    };
+    const response = await fetch('http://localhost:51055/auth', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((r) => r.json());
+
+    const { error, body } = response;
+    if (!error) {
+      user.value = {
+        ...body.user,
+        status: 'Logged in',
+      };
+    } else {
+      user.value = {
+        status: 'Logged out',
+      };
+    }
   }
 
   return {
     login,
-    user,
+    user: readonly(user),
   };
 });
