@@ -1,17 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 
-import Logger from '../common/Logger.js';
-
 const publicKey = readFileSync('.keys/public-key.pem');
 
 export const validateToken = (token) => {
   try {
-    const decoded = jwt.verify(token.replace('Bearer ', ''), publicKey, {
+    jwt.verify(token, publicKey, {
       algorithm: 'RS512',
     });
-    return !!decoded;
+    return true;
   } catch (error) {
-    Logger.warn(`Authentication failed with token ${token}`);
+    return false;
   }
 };
