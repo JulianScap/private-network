@@ -32,3 +32,15 @@ export const Ok = (context, body, message) => {
   context.status = 200;
   context.body = response;
 };
+
+export const internalServerError = (context, body, message) => {
+  try {
+    const response = toResponse(body, message, true);
+
+    context.status = 500;
+    context.body = response;
+  } catch {
+    context.status = 500;
+    context.body = 'Something went south';
+  }
+};
