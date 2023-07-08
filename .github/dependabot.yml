@@ -1,11 +1,11 @@
 version: 2
 updates:
-  - package-ecosystem: 'yarn'
+  - package-ecosystem: 'npm'
     directory: 'back-end/'
     schedule:
       interval: 'weekly'
 
-  - package-ecosystem: 'yarn'
+  - package-ecosystem: 'npm'
     directory: 'front-end/'
     schedule:
       interval: 'weekly'
