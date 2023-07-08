@@ -2,7 +2,7 @@ import Router from '@koa/router';
 
 import { generateToken } from './generateToken.js';
 import { Ok, badRequest } from '../common/response.js';
-import logger from '../common/logger.js';
+import Logger from '../common/Logger.js';
 
 const router = new Router({
   prefix: '/auth',
@@ -10,8 +10,7 @@ const router = new Router({
 
 router.post('/', (context) => {
   const { login, password } = context.request.body;
-
-  logger.info(`Authenticating ${login}`);
+  Logger.info(`Authenticating ${login}`);
 
   if (login === 'juju' && password === '1234') {
     Ok(context, {

@@ -6,6 +6,7 @@ import Auth from './auth/auth.route.js';
 import User from './user/user.route.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { logRequest } from './middlewares/logRequest.js';
+import Logger from './common/Logger.js';
 
 const app = new Koa();
 const port = 51055;
@@ -22,4 +23,4 @@ app.use(User.routes(), User.allowedMethods());
 
 app.listen(port);
 
-console.log(`Listening on port ${port}`);
+Logger.info(`Listening on port ${port}`);
