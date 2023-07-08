@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "build": "esbuild src/index.js --platform=node --target=node20.3.0 --outfile=dist/index.cjs --bundle",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path ../.gitignore",
     "format": "prettier --write src/"
   },
   "dependencies": {
