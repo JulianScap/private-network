@@ -6,15 +6,29 @@ const customFormat = printf(({ level, message, timestamp }) => {
   return `${timestamp} | ${level} | ${message}`;
 });
 
+const timestampFormat = 'YY/MM/DD HH:mm:ss';
+
 const logger = createLogger({
-  format: combine(
-    colorize(),
-    timestamp({
-      format: 'YY/MM/DD HH:mm:ss',
+  transports: [
+    new transports.Console({
+      format: combine(
+        colorize(),
+        timestamp({
+          format: timestampFormat,
+        }),
+        customFormat,
+      ),
     }),
-    customFormat,
-  ),
-  transports: [new transports.Console(), new transports.File({ filename: 'logs/combined.log' })],
+    new transports.File({
+      format: combine(
+        timestamp({
+          format: timestampFormat,
+        }),
+        customFormat,
+      ),
+      filename: 'logs/combined.log',
+    }),
+  ],
 });
 
 export default {
