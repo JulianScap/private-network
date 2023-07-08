@@ -1,0 +1,33 @@
+{
+  "name": "private-network-backend",
+  "version": "0.0.0",
+  "description": "This is going nowhere",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/JulianScap/private-network.git",
+  "author": "Julian Adler <julian.dot.adler@gmail.com>",
+  "license": "Unlicense",
+  "engines": {
+    "node": "20.3.0"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "@koa/router": "^12.0.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.1",
+    "winston": "^3.9.0"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/node": "^20.3.3",
+    "eslint": "^8.44.0",
+    "eslint-plugin-vue": "^9.15.1",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  }
+}
