@@ -4,9 +4,9 @@ import { readFileSync } from 'fs';
 
 import config from '../config.js';
 
-export const generateToken = (login) => {
-  const privateKey = readFileSync('.keys/private-key.pem');
+const privateKey = readFileSync('.keys/private-key.pem');
 
+export const generateToken = (login) => {
   const ticks = Date.now() / 1000;
   const oneHourInMinutes = 60 * 60;
 
