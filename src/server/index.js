@@ -20,7 +20,6 @@ app.use(logRequest);
 app.use(Auth.routes(), Auth.allowedMethods());
 app.use(User.routes(), User.allowedMethods());
 
-
 app.listen(port);
 
 Logger.info(`Listening on port ${port}`);

@@ -1,3 +1,1 @@
-export const authCheck = (ctx, next) => {
-    
-};
+export const authCheck = (ctx, next) => {};
