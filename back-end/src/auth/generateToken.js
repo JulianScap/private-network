@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
 import { readFileSync } from 'fs';
 
-import config from '../config.js';
+import config from '../common/config.js';
 
 const privateKey = readFileSync('.keys/private-key.pem');
 

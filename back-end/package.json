@@ -11,7 +11,10 @@
     "node": "20.3.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build": "esbuild src/index.js --platform=node --target=node20.3.0 --outfile=dist/index.cjs --bundle",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@koa/cors": "^4.0.0",
@@ -25,6 +28,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/node": "^20.3.3",
+    "esbuild": "^0.18.11",
     "eslint": "^8.44.0",
     "eslint-plugin-vue": "^9.15.1",
     "nodemon": "^2.0.22",
