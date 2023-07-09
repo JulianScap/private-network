@@ -1,0 +1,11 @@
+version: '3'
+services:
+  main:
+    image: local/private-network:latest
+    volumes:
+      - ../back-end/.env:/app/.env
+      - ../back-end/.keys:/app/.keys
+    ports:
+      - 5173:5173
+      - 51055:51055
+    command: 'sh -c "/app/entrypoint.sh"'

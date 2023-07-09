@@ -5,7 +5,7 @@ import { cwd } from 'node:process';
 const frontEnd = '../front-end';
 const backEnd = '../back-end';
 const outDir = './dist';
-const imageName = 'private-network';
+const imageName = 'local/private-network';
 
 const startProcess = (command, cwd) => {
   return new Promise((resolve, reject) => {
