@@ -17,3 +17,10 @@ Create an `.env` file with the following:
 ```properties
 domain=<the domain here>
 ```
+
+# Deploy
+
+```
+cd docker
+yarn deploy
+```
