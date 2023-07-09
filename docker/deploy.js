@@ -2,16 +2,19 @@ import { existsSync, mkdirSync, cpSync, rmSync } from 'fs';
 import { spawn } from 'node:child_process';
 import { cwd } from 'node:process';
 
-const startProcess = (command, cwd, ...args) => {
+const startProcess = (command, cwd) => {
   return new Promise((resolve, reject) => {
-    console.log(`Running "${[command, ...args].join(' ')}" in ${cwd}`);
-    const process = spawn(command, args, { cwd });
+    // This is 0% compatible with command line arguments with spaces
+    const [processName, ...args] = command.split(' ');
+
+    console.log(`Running "${[processName, ...args].join(' ')}" in ${cwd}`);
+    const process = spawn(processName, args, { cwd });
 
     //process.stdout.on('data', (data) => console.log(data.toString().trim()));
 
     process.on('close', (code) => {
       if (code) {
-        reject(`Task ${command} in ${cwd} failed with code ${code}`);
+        reject(`Task ${processName} in ${cwd} failed with code ${code}`);
       } else {
         resolve();
       }
@@ -50,11 +53,11 @@ for (const directory of [frontEnd, backEnd]) {
   console.log(`Building ${folderName}`);
 
   await startProcess('yarn', directory);
-  await startProcess('yarn', directory, 'build');
+  await startProcess('yarn build', directory);
   cpSync(`${directory}/dist`, `${outDir}/${folderName}`, {
     recursive: true,
   });
 }
 
 console.log('Building docker image');
-await startProcess('docker', cwd(), 'build', '.', '-t', 'private-network');
+await startProcess('docker build . -t private-network', cwd());
