@@ -1,0 +1,16 @@
+{
+  "name": "private-network-frontend",
+  "version": "0.0.0",
+  "description": "This is going nowhere",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/JulianScap/private-network.git",
+  "author": "Julian Adler <julian.dot.adler@gmail.com>",
+  "license": "Unlicense",
+  "engines": {
+    "node": "20.3.0"
+  },
+  "scripts": {
+    "build": "node deploy.js"
+  }
+}
