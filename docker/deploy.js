@@ -2,6 +2,11 @@ import { existsSync, mkdirSync, cpSync, rmSync } from 'fs';
 import { spawn } from 'node:child_process';
 import { cwd } from 'node:process';
 
+const frontEnd = '../front-end';
+const backEnd = '../back-end';
+const outDir = './dist';
+const imageName = 'private-network';
+
 const startProcess = (command, cwd) => {
   return new Promise((resolve, reject) => {
     // This is 0% compatible with command line arguments with spaces
@@ -21,10 +26,6 @@ const startProcess = (command, cwd) => {
     });
   });
 };
-
-const frontEnd = '../front-end';
-const backEnd = '../back-end';
-const outDir = './dist';
 
 const canRun =
   existsSync('../docker') &&
@@ -60,4 +61,4 @@ for (const directory of [frontEnd, backEnd]) {
 }
 
 console.log('Building docker image');
-await startProcess('docker build . -t private-network', cwd());
+await startProcess(`docker build . -t ${imageName}`, cwd());
