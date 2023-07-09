@@ -8,7 +8,7 @@
   "author": "Julian Adler <julian.dot.adler@gmail.com>",
   "license": "Unlicense",
   "engines": {
-    "node": "20.3.0"
+    "node": "^20.3.0"
   },
   "scripts": {
     "build": "node deploy.js"
