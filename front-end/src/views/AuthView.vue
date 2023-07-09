@@ -17,24 +17,38 @@ async function signIn() {
 <template>
   <div class="row mx-0 justify-content-center">
     <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
-      <p class="h2">
-        Authenticate
-      </p>
+      <p class="h2">Authenticate</p>
 
       <div class="w-100 rounded-2 p-4 border text-secondary border-secondary">
         <label class="d-block mb-4">
           <span class="form-label d-block text-light">Username</span>
-          <input name="email" type="email" class="form-control text-light" placeholder="joe.bloggs@example.com"
-            v-model="credentials.login" />
+          <input
+            name="username"
+            type="text"
+            class="form-control text-light"
+            placeholder="Username"
+            v-model="credentials.login"
+          />
         </label>
 
         <label class="d-block mb-4">
           <span class="form-label d-block text-light">Password</span>
-          <input name="code" type="password" class="form-control text-light" required v-model="credentials.password" />
+          <input
+            name="password"
+            type="password"
+            class="form-control text-light"
+            v-model="credentials.password"
+          />
         </label>
 
         <div class="mb-3">
-          <button type="submit" class="btn btn-primary" @click="signIn">Log in!</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            @click="signIn"
+          >
+            Log in!
+          </button>
         </div>
       </div>
     </div>

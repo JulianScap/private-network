@@ -7,6 +7,7 @@
     },
     "extends": [
         "eslint:recommended",
+        "plugin:prettier/recommended",
         "plugin:vue/vue3-essential",
         "@vue/eslint-config-prettier/skip-formatting"
     ],
