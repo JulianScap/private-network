@@ -9,4 +9,4 @@ EXPOSE 5173 51055
 WORKDIR /app
 COPY dist/ /app
 
-ENTRYPOINT ["/usr/local/bin/concurrently", "/usr/local/bin/vite /app/front-end --host", "node /app/back-end/index.cjs"]
+ENTRYPOINT ["/usr/local/bin/concurrently", "/usr/local/bin/vite front-end --host", "node back-end/index.cjs"]
