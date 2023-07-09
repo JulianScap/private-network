@@ -3,7 +3,7 @@ services:
   main:
     image: local/private-network:latest
     volumes:
-      - ../back-end/.env:/app/.env
+      - .env:/app/.env
       - ../back-end/.keys:/app/.keys
     ports:
       - 5173:5173
