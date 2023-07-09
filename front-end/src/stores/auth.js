@@ -1,7 +1,6 @@
 import { ref, readonly } from 'vue';
 import { defineStore } from 'pinia';
 import { useCurrentUser } from './currentUser.js';
-import { backendUrl } from '../common/configuration.js';
 
 export const useAuthStore = defineStore('auth', () => {
   const currentUser = useCurrentUser();
@@ -10,7 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   async function login(credentials) {
-    const response = await fetch(`${backendUrl}/auth`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND}/auth`, {
       method: 'POST',
       body: JSON.stringify(credentials),
       headers: {

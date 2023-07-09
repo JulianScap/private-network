@@ -3,8 +3,8 @@
 </script>
 
 <template>
-  <div>
-    You are in!
+  <div class="row mx-0 justify-content-center">
+    <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">You are in!</div>
 
     <!-- <header>
     <div class="wrapper">
