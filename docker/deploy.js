@@ -1,9 +1,10 @@
-import { existsSync } from 'fs';
+import { existsSync, mkdirSync, cpSync, rmSync } from 'fs';
 import { spawn } from 'node:child_process';
 import { cwd } from 'node:process';
 
 const startProcess = (command, cwd, ...args) => {
   return new Promise((resolve, reject) => {
+    console.log(`Starting process "${[command, ...args].join(' ')}"`);
     const process = spawn(command, args, { cwd });
 
     process.stdout.on('data', (data) => console.log(data.toString().trim()));
@@ -18,10 +19,15 @@ const startProcess = (command, cwd, ...args) => {
   });
 };
 
+const frontEnd = '../front-end';
+const backEnd = '../back-end';
+const outDir = './dist';
+const yarn = 'yarn';
+
 const canRun =
   existsSync('../docker') &&
-  existsSync('../front-end') &&
-  existsSync('../back-end') &&
+  existsSync(frontEnd) &&
+  existsSync(backEnd) &&
   cwd().endsWith('docker');
 
 if (!canRun) {
@@ -29,9 +35,27 @@ if (!canRun) {
   exit(1);
 }
 
-await startProcess('yarn', '../front-end');
-await startProcess('yarn', '../front-end', 'build');
-await startProcess('yarn', '../back-end');
-await startProcess('yarn', '../back-end', 'build');
+if (existsSync(outDir)) {
+  console.log(`Removing existing dir ${outDir}`);
+  rmSync(outDir, {
+    recursive: true,
+    force: true,
+  });
+}
 
-//docker build . -t private-network
+console.log(`Creating ${outDir}`);
+mkdirSync(outDir);
+
+for (const dir of [frontEnd, backEnd]) {
+  const folderName = dir.replace('../', '');
+  console.log(`Building ${folderName}`);
+
+  await startProcess(yarn, dir);
+  await startProcess(yarn, dir, 'build');
+  cpSync(`${dir}/dist`, `${outDir}/${folderName}`, {
+    recursive: true,
+  });
+}
+
+console.log('Building docker image');
+await startProcess('docker', cwd(), 'build', '.', '-t', 'private-network');
