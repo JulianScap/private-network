@@ -4,10 +4,10 @@ import { cwd } from 'node:process';
 
 const startProcess = (command, cwd, ...args) => {
   return new Promise((resolve, reject) => {
-    console.log(`Starting process "${[command, ...args].join(' ')}"`);
+    console.log(`Running "${[command, ...args].join(' ')}" in ${cwd}`);
     const process = spawn(command, args, { cwd });
 
-    process.stdout.on('data', (data) => console.log(data.toString().trim()));
+    //process.stdout.on('data', (data) => console.log(data.toString().trim()));
 
     process.on('close', (code) => {
       if (code) {
@@ -22,7 +22,6 @@ const startProcess = (command, cwd, ...args) => {
 const frontEnd = '../front-end';
 const backEnd = '../back-end';
 const outDir = './dist';
-const yarn = 'yarn';
 
 const canRun =
   existsSync('../docker') &&
@@ -46,13 +45,13 @@ if (existsSync(outDir)) {
 console.log(`Creating ${outDir}`);
 mkdirSync(outDir);
 
-for (const dir of [frontEnd, backEnd]) {
-  const folderName = dir.replace('../', '');
+for (const directory of [frontEnd, backEnd]) {
+  const folderName = directory.replace('../', '');
   console.log(`Building ${folderName}`);
 
-  await startProcess(yarn, dir);
-  await startProcess(yarn, dir, 'build');
-  cpSync(`${dir}/dist`, `${outDir}/${folderName}`, {
+  await startProcess('yarn', directory);
+  await startProcess('yarn', directory, 'build');
+  cpSync(`${directory}/dist`, `${outDir}/${folderName}`, {
     recursive: true,
   });
 }
