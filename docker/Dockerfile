@@ -8,8 +8,5 @@ EXPOSE 5173 51055
 
 WORKDIR /app
 COPY dist/ /app
-COPY entrypoint.sh entrypoint.sh
 
-RUN chmod +x entrypoint.sh
-
-ENTRYPOINT "./entrypoint.sh"
+ENTRYPOINT ["/usr/local/bin/concurrently", "/usr/local/bin/vite /app/front-end --host", "node /app/back-end/index.cjs"]
