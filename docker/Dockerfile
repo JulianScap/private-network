@@ -1,4 +1,4 @@
-FROM node:20.3
+FROM node:20.2
 
 RUN npm install -g vite@4.3.9
 RUN npm install -g concurrently@8.2.0
