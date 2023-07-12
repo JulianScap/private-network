@@ -31,8 +31,15 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  function logout() {
+    status.value.connected = false;
+    sessionStorage.removeItem('bearer');
+    currentUser.clearUser();
+  }
+
   return {
     login,
+    logout,
     status: readonly(status),
   };
 });
