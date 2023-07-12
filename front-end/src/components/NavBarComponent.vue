@@ -26,8 +26,7 @@ function handleLogout() {
           v-if="authStore.status.connected"
           class="btn btn-outline-danger"
           type="submit"
-          @click="handleLogout"
-        >
+          @click="handleLogout">
           Logout
         </button>
       </div>
