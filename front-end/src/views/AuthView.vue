@@ -42,13 +42,7 @@ async function signIn() {
         </label>
 
         <div class="mb-3">
-          <button
-            type="submit"
-            class="btn btn-primary"
-            @click="signIn"
-          >
-            Log in!
-          </button>
+          <button type="submit" class="btn btn-primary" @click="signIn">Log in!</button>
         </div>
       </div>
     </div>

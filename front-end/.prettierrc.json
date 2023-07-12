@@ -6,5 +6,5 @@
   "printWidth": 100,
   "trailingComma": "all",
   "endOfLine": "lf",
-  "singleAttributePerLine": true
+  "singleAttributePerLine": false
 }
