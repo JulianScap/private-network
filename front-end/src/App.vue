@@ -10,10 +10,8 @@ const authStore = useAuthStore();
 
 <template>
   <NavBarComponent />
-  <main class="container">
-    <div class="p-5">
-      <AuthView v-if="!authStore.status.connected" />
-      <MainView v-else />
-    </div>
+  <main class="container p-5">
+    <AuthView v-if="!authStore.status.connected" />
+    <MainView v-else />
   </main>
 </template>
