@@ -9,8 +9,8 @@ const credentials = reactive({
   password: '1234',
 });
 
-async function signIn() {
-  await authStore.login(credentials);
+function signIn() {
+  return authStore.login(credentials);
 }
 </script>
 

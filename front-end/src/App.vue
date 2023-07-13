@@ -1,7 +1,8 @@
 <script setup>
-import AuthView from '@/views/AuthView.vue';
-import MainView from '@/views/MainView.vue';
-import NavBarComponent from '@/components/NavBarComponent.vue';
+import { RouterView } from 'vue-router';
+
+import AuthView from './views/AuthView.vue';
+import NavBarComponent from './components/NavBarComponent.vue';
 
 import { useAuthStore } from './stores/auth.js';
 
@@ -12,6 +13,6 @@ const authStore = useAuthStore();
   <NavBarComponent />
   <main class="container p-5">
     <AuthView v-if="!authStore.status.connected" />
-    <MainView v-else />
+    <RouterView v-else />
   </main>
 </template>

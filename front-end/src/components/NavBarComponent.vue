@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth.js';
 
 const authStore = useAuthStore();
@@ -16,10 +17,10 @@ function handleLogout() {
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="authStore.status.connected">
           <li class="nav-item">
-            <a class="nav-link" href="#">Posts</a>
+            <RouterLink class="nav-link" to="/">Posts</RouterLink>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Friends</a>
+            <RouterLink class="nav-link" to="/links">Links</RouterLink>
           </li>
         </ul>
         <button
