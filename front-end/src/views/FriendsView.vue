@@ -1,0 +1,3 @@
+<template>
+  Friends
+</template>
