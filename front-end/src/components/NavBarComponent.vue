@@ -13,7 +13,7 @@ function handleLogout() {
 <template>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Private Network</a>
+      <RouterLink class="navbar-brand" to="/">Private Network</RouterLink>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="authStore.status.connected">
           <li class="nav-item">
@@ -27,7 +27,8 @@ function handleLogout() {
           v-if="authStore.status.connected"
           class="btn btn-outline-danger"
           type="submit"
-          @click="handleLogout">
+          @click="handleLogout"
+        >
           Logout
         </button>
       </div>

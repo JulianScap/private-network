@@ -9,13 +9,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'posts',
-      component: PostsView
+      component: PostsView,
     },
     {
       path: '/links',
       name: 'links',
-      component: LinksView
-    }
+      component: LinksView,
+    },
   ],
 });
 
