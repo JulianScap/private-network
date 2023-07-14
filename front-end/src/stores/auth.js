@@ -2,6 +2,7 @@ import { ref, readonly } from 'vue';
 import { defineStore } from 'pinia';
 
 import { useCurrentUser } from './currentUser.js';
+import { post } from '../common/request.js';
 
 const sessionStorageKey = 'bearer';
 
@@ -12,13 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   });
 
   async function login(credentials) {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND}/auth`, {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((r) => r.json());
+    const response = await post('auth', credentials, false);
 
     const { error, body } = response;
     if (!error) {

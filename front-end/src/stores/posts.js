@@ -1,17 +1,9 @@
 import { defineStore } from 'pinia';
+import { post } from '../common/request';
 
 export const usePostStore = defineStore('posts', () => {
   async function addPost(message) {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND}/posts`, {
-      method: 'POST',
-      body: JSON.stringify({
-        message,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((r) => r.json());
-
+    const response = await post('posts', { message });
     return !response?.error;
   }
 
