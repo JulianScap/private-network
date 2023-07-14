@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 
-import { Ok } from '../common/response.js';
+import { ok } from '../common/response.js';
 import Logger from '../common/Logger.js';
 import { authCheck } from '../middlewares/authCheck.js';
 
@@ -12,7 +12,7 @@ router.use(authCheck);
 
 router.get('/', (context) => {
   Logger.info('Fetching user data');
-  Ok(context, {
+  ok(context, {
     user: {
       name: 'Julian',
     },

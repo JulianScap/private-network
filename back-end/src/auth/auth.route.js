@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import bcrypt from 'bcrypt';
 
 import { generateToken } from './generateToken.js';
-import { Ok, badRequest } from '../common/response.js';
+import { ok, badRequest, conflict } from '../common/response.js';
 import Logger from '../common/Logger.js';
 import DB from '../common/database.js';
 
@@ -13,41 +13,55 @@ const router = new Router({
 router.put('/', async (context) => {
   const { login, password } = context.request.body;
   Logger.info(`Creating account for ${login}`);
+  const session = DB.openSession();
+
+  const existingMe = await session.load('me/1');
+  if (existingMe) {
+    conflict(context);
+    return;
+  }
 
   const salt = await bcrypt.genSalt(12);
   const hash = await bcrypt.hash(password, salt);
 
-  Logger.info(`Salt ${salt}`);
   Logger.info(`Hash ${hash}`);
 
   const me = {
-    id: null,
+    id: 1,
     login,
     hash,
+    '@metadata': {
+      '@collection': 'me',
+    },
   };
 
-  const session = DB.openSession();
   await session.store(me, 'me/1');
   await session.saveChanges();
 
   Logger.info(`Saved ${JSON.stringify(me)}`);
-  Ok(context);
+  ok(context);
 });
 
-router.post('/', (context) => {
+router.post('/', async (context) => {
   const { login, password } = context.request.body;
   Logger.info(`Authenticating ${login}`);
 
-  if (login === 'juju' && password === '1234') {
-    Ok(context, {
+  const session = DB.openSession();
+
+  const existingMe = await session.load('me/1');
+  const match = await bcrypt.compare(password, existingMe.hash);
+
+  if (match) {
+    ok(context, {
       bearer: generateToken(login),
       user: {
-        name: 'Julian',
+        name: existingMe.login,
       },
     });
-  } else {
-    badRequest(context, 'Authentication failed');
+    return;
   }
+
+  badRequest(context, 'Authentication failed');
 });
 
 export default router;

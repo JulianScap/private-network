@@ -26,7 +26,14 @@ export const badRequest = (context, body, message) => {
   context.body = response;
 };
 
-export const Ok = (context, body, message) => {
+export const conflict = (context, body, message) => {
+  const response = toResponse(body, message, true);
+
+  context.status = 409;
+  context.body = response;
+};
+
+export const ok = (context, body, message) => {
   const response = toResponse(body, message, false);
 
   context.status = 200;

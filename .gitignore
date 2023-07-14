@@ -3,7 +3,7 @@ scripts/*
 !scripts/rc.sh
 .env
 .keys/
-database/data/
+database/db/
 .license
 
 # Logs
