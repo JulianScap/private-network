@@ -19,6 +19,13 @@ const toResponse = (body, message, error) => {
   }
 };
 
+export const ok = (context, body, message) => {
+  const response = toResponse(body, message, false);
+
+  context.status = 200;
+  context.body = response;
+};
+
 export const badRequest = (body, message) => {
   const response = toResponse(body, message, true);
   throw { handle: true, status: 400, response };
@@ -32,13 +39,6 @@ export const forbidden = () => {
 export const conflict = (message) => {
   const response = toResponse(message || 'This action has been blocked', null, true);
   throw { handle: true, status: 409, response };
-};
-
-export const ok = (context, body, message) => {
-  const response = toResponse(body, message, false);
-
-  context.status = 200;
-  context.body = response;
 };
 
 export const internalServerError = (context) => {
