@@ -1,4 +1,4 @@
-const toResponse = (body, message, error) => {
+const toResponse = (body, message, error = false) => {
   const type = typeof body;
   if (typeof body === 'string') {
     return {
@@ -20,7 +20,7 @@ const toResponse = (body, message, error) => {
 };
 
 export const ok = (context, body, message) => {
-  const response = toResponse(body, message, false);
+  const response = toResponse(body, message);
 
   context.status = 200;
   context.body = response;
@@ -28,17 +28,29 @@ export const ok = (context, body, message) => {
 
 export const badRequest = (body, message) => {
   const response = toResponse(body, message, true);
-  throw { handle: true, status: 400, response };
+  throw {
+    handle: true,
+    status: 400,
+    response,
+  };
 };
 
 export const forbidden = () => {
   const response = toResponse('Unauthorized', null, true);
-  throw { handle: true, status: 401, response };
+  throw {
+    handle: true,
+    status: 401,
+    response,
+  };
 };
 
 export const conflict = (message) => {
   const response = toResponse(message || 'This action has been blocked', null, true);
-  throw { handle: true, status: 409, response };
+  throw {
+    handle: true,
+    status: 409,
+    response,
+  };
 };
 
 export const internalServerError = (context) => {
