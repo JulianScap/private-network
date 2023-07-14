@@ -1,5 +1,6 @@
 import { validateToken } from '../auth/validateToken.js';
 import Logger from '../common/Logger.js';
+import { forbidden } from '../common/response.js';
 
 export const authCheck = (ctx, next) => {
   Logger.info('Validating token');
@@ -11,5 +12,5 @@ export const authCheck = (ctx, next) => {
   }
 
   Logger.warn(`Authentication failed with header ${authorization}`);
-  ctx.throw(401);
+  forbidden();
 };

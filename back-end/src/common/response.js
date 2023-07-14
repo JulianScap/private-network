@@ -19,18 +19,19 @@ const toResponse = (body, message, error) => {
   }
 };
 
-export const badRequest = (context, body, message) => {
+export const badRequest = (body, message) => {
   const response = toResponse(body, message, true);
-
-  context.status = 400;
-  context.body = response;
+  throw { handle: true, status: 400, response };
 };
 
-export const conflict = (context, body, message) => {
-  const response = toResponse(body, message, true);
+export const forbidden = () => {
+  const response = toResponse('Unauthorized', null, true);
+  throw { handle: true, status: 401, response };
+};
 
-  context.status = 409;
-  context.body = response;
+export const conflict = (message) => {
+  const response = toResponse(message || 'This action has been blocked', null, true);
+  throw { handle: true, status: 409, response };
 };
 
 export const ok = (context, body, message) => {
@@ -40,14 +41,7 @@ export const ok = (context, body, message) => {
   context.body = response;
 };
 
-export const internalServerError = (context, body, message) => {
-  try {
-    const response = toResponse(body, message, true);
-
-    context.status = 500;
-    context.body = response;
-  } catch {
-    context.status = 500;
-    context.body = 'Something went south';
-  }
+export const internalServerError = (context) => {
+  context.status = 500;
+  context.body = toResponse('Something went south', null, true);
 };

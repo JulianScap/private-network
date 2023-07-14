@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import bcrypt from 'bcrypt';
+import { setTimeout } from 'timers/promises';
 
 import { generateToken } from './generateToken.js';
 import { ok, badRequest, conflict } from '../common/response.js';
@@ -17,7 +18,7 @@ router.put('/', async (context) => {
 
   const existingMe = await session.load('me/1');
   if (existingMe) {
-    conflict(context);
+    conflict();
     return;
   }
 
@@ -27,7 +28,6 @@ router.put('/', async (context) => {
   Logger.info(`Hash ${hash}`);
 
   const me = {
-    id: 1,
     login,
     hash,
     '@metadata': {
@@ -43,25 +43,27 @@ router.put('/', async (context) => {
 });
 
 router.post('/', async (context) => {
+  const authError = 'Authentication failed';
   const { login, password } = context.request.body;
   Logger.info(`Authenticating ${login}`);
 
   const session = DB.openSession();
 
   const existingMe = await session.load('me/1');
-  const match = await bcrypt.compare(password, existingMe.hash);
 
-  if (match) {
-    ok(context, {
-      bearer: generateToken(login),
-      user: {
-        name: existingMe.login,
-      },
-    });
-    return;
+  const match = existingMe?.login === login && (await bcrypt.compare(password, existingMe.hash));
+
+  if (!match) {
+    await setTimeout(2000 + Math.random() * 1000);
+    badRequest(authError);
   }
 
-  badRequest(context, 'Authentication failed');
+  ok(context, {
+    bearer: generateToken(login),
+    user: {
+      name: existingMe.login,
+    },
+  });
 });
 
 export default router;
