@@ -6,7 +6,7 @@ import { generateToken } from './generateToken.js';
 import { ok, badRequest, conflict } from '../common/response.js';
 import Logger from '../common/Logger.js';
 import DB from '../common/database.js';
-import { publicKey } from '../common/security.js';
+import { publicKeyString } from '../common/security.js';
 
 const router = new Router({
   prefix: '/auth',
@@ -25,8 +25,6 @@ router.put('/', async (context) => {
 
   const salt = await bcrypt.genSalt(12);
   const hash = await bcrypt.hash(password, salt);
-
-  Logger.info(`Hash ${hash}`);
 
   const me = {
     login,
@@ -68,7 +66,7 @@ router.post('/', async (context) => {
 });
 
 router.get('/pk', (context) => {
-  ok(context, { key: publicKey });
+  ok(context, { key: publicKeyString });
 });
 
 export default router;
