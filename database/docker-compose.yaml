@@ -1,0 +1,11 @@
+version: '3'
+services:
+  database:
+    image: ravendb/ravendb:5.4.107-ubuntu.22.04-x64
+    ports:
+      - 38888:38888
+      - 8080:8080
+    environment:
+      - RAVEN_Security_UnsecuredAccessAllowed=PublicNetwork
+    volumes:
+      - ./data/:/opt/RavenDB/Server/RavenData:rw

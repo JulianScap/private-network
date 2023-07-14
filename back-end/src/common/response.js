@@ -8,7 +8,7 @@ const toResponse = (body, message, error) => {
   } else if (type === 'undefined') {
     return {
       error,
-      message: message || 'Something did not happen as expected',
+      message: message || (error ? 'Something did not happen as expected' : '❤️'),
     };
   } else {
     return {
