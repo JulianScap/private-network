@@ -1,5 +1,6 @@
 <script setup>
 import { reactive } from 'vue';
+
 import { useAuthStore } from '../stores/auth.js';
 
 const authStore = useAuthStore();

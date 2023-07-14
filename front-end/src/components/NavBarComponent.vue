@@ -14,7 +14,7 @@ function handleLogout() {
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
       <RouterLink class="navbar-brand" to="/">Private Network</RouterLink>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="authStore.status.connected">
           <li class="nav-item">
             <RouterLink class="nav-link" to="/">Posts</RouterLink>
