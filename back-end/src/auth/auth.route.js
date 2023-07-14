@@ -6,6 +6,7 @@ import { generateToken } from './generateToken.js';
 import { ok, badRequest, conflict } from '../common/response.js';
 import Logger from '../common/Logger.js';
 import DB from '../common/database.js';
+import { publicKey } from '../common/security.js';
 
 const router = new Router({
   prefix: '/auth',
@@ -64,6 +65,10 @@ router.post('/', async (context) => {
       name: existingMe.login,
     },
   });
+});
+
+router.get('/pk', (context) => {
+  ok(context, { key: publicKey });
 });
 
 export default router;

@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { readFileSync } from 'fs';
 
-const publicKey = readFileSync('.keys/public-key.pem');
+import { publicKey } from '../common/security.js';
 
 export const validateToken = (token) => {
   try {

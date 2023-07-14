@@ -1,11 +1,14 @@
 import { ref, readonly } from 'vue';
 import { defineStore } from 'pinia';
+
 import { useCurrentUser } from './currentUser.js';
+
+const sessionStorageKey = 'bearer';
 
 export const useAuthStore = defineStore('auth', () => {
   const currentUser = useCurrentUser();
   const status = ref({
-    connected: false,
+    connected: !!sessionStorage.getItem(sessionStorageKey),
   });
 
   async function login(credentials) {
@@ -23,17 +26,15 @@ export const useAuthStore = defineStore('auth', () => {
 
       status.value.connected = true;
       currentUser.setUser(user);
-      sessionStorage.setItem('bearer', bearer);
+      sessionStorage.setItem(sessionStorageKey, bearer);
     } else {
-      status.value.connected = false;
-      sessionStorage.removeItem('bearer');
-      currentUser.clearUser();
+      logout();
     }
   }
 
   function logout() {
     status.value.connected = false;
-    sessionStorage.removeItem('bearer');
+    sessionStorage.clear();
     currentUser.clearUser();
   }
 
