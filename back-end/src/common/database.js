@@ -7,8 +7,6 @@ import Logger from './Logger.js';
 const store = new DocumentStore('http://localhost:8080', 'privateNetwork');
 
 store.conventions.documentIdGenerator = (_, entity) => {
-  Logger.info(entity);
-
   if (!entity) {
     badRequest('Cannot save a null object');
   }
@@ -20,6 +18,7 @@ store.conventions.documentIdGenerator = (_, entity) => {
   const collection = entity['@metadata']?.['@collection'];
   const newId = v4();
   if (!collection) {
+    Logger.warn(`No collection specified for ${JSON.stringify(entity)}`);
     return newId;
   }
 

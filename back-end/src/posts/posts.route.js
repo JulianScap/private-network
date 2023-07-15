@@ -21,8 +21,11 @@ router.post('/', async (context) => {
   const session = DB.openSession();
   await session.store({
     message: post.message,
+
     '@metadata': {
       '@collection': 'posts',
+      created: new Date(),
+      owner: 'http://xx.com'
     },
   });
 
@@ -31,19 +34,18 @@ router.post('/', async (context) => {
   ok(context);
 });
 
-router.delete('/:postId', async (context) => {
-  const { postId } = context.params;
+router.delete('/', async (context) => {
+  const { postId } = context.query;
 
   Logger.info(`Deleting post ${postId}`);
 
   if (!postId) {
-    Logger.info('Not a guid');
-    badRequest();
+    badRequest('Not a guid');
   }
 
   const session = DB.openSession();
   const post = await session.load(postId);
-  post.deleted = new Date();
+  post['@metadata'].deleted = new Date();
   await session.saveChanges();
 
   ok(context);
