@@ -23,6 +23,7 @@ export const ok = (context, body, message) => {
   const response = toResponse(body, message);
 
   context.status = 200;
+  context.state.sanitize |= !!response;
   context.body = response;
 };
 

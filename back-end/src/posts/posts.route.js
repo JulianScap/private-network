@@ -5,12 +5,29 @@ import Logger from '../common/Logger.js';
 import { badRequest, ok } from '../common/response.js';
 
 import { authCheck } from '../middlewares/authCheck.js';
+import { sanitizeResponse } from '../middlewares/sanitizeResponse.js';
 
 const router = new Router({
   prefix: '/posts',
 });
 
 router.use(authCheck);
+router.use(sanitizeResponse);
+
+router.get('/', async (context) => {
+  const session = DB.openSession();
+
+  const posts = await session
+    .query({ collection: 'posts' })
+    .orderByDescending('@metadata.created')
+    .take(10)
+    .selectFields(['message', 'id'])
+    .not()
+    .whereExists('@metadata.deleted')
+    .all();
+
+  ok(context, posts);
+});
 
 router.post('/', async (context) => {
   Logger.info('Saving post');
