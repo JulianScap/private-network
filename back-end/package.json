@@ -25,6 +25,7 @@
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.1",
     "ravendb": "^5.2.10",
+    "uuid": "^9.0.0",
     "winston": "^3.9.0"
   },
   "devDependencies": {
