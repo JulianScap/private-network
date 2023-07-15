@@ -1,9 +1,10 @@
 import Router from '@koa/router';
 
-import { badRequest, ok } from '../common/response.js';
-import Logger from '../common/Logger.js';
-import { authCheck } from '../middlewares/authCheck.js';
 import DB from '../common/database.js';
+import Logger from '../common/Logger.js';
+import { badRequest, ok } from '../common/response.js';
+
+import { authCheck } from '../middlewares/authCheck.js';
 
 const router = new Router({
   prefix: '/posts',
@@ -25,7 +26,7 @@ router.post('/', async (context) => {
     '@metadata': {
       '@collection': 'posts',
       created: new Date(),
-      owner: 'http://xx.com'
+      owner: context.request.headers.origin,
     },
   });
 
@@ -45,6 +46,11 @@ router.delete('/', async (context) => {
 
   const session = DB.openSession();
   const post = await session.load(postId);
+
+  if (!post) {
+    badRequest('This post does not exist');
+  }
+
   post['@metadata'].deleted = new Date();
   await session.saveChanges();
 

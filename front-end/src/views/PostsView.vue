@@ -10,7 +10,7 @@ const post = reactive({
 
 function publishPost() {
   if (post.message) {
-    return postStore.addPost(post);
+    return postStore.addPost(post.message);
   }
 }
 </script>
