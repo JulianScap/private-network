@@ -59,21 +59,36 @@ participant Bob FE
 participant Bob BE
 
 Alice FE->Alice BE:Create a friend request
+activate Alice BE
 Alice BE->Alice BE:Create db record\nGenerate a token for Bob
 Alice BE->Bob BE:Send token to Bob
+activate Bob BE
 Bob BE->Bob BE:Create db record
-
+deactivate Bob BE
+Alice BE<--Bob BE: OK
+Alice FE<--Alice BE:OK
+deactivate Alice BE
 
 ==Bob accepts the request==
 Bob FE->Bob BE:Accept
+activate Bob BE
 Bob BE->Bob BE:Generate a token\nUpdate database
 Bob BE->Alice BE:Share the token with Alice
+activate Alice BE
+Alice BE->Alice BE:Update DB\nSave token
+deactivate Alice BE
+deactivate Bob BE
 
 
 ==Alice browses her posts==
 
 Alice FE->Alice BE:GET /posts
+activate Alice BE
 Alice BE->Alice BE:Get own posts
 Alice BE->Bob BE:Get Bob's posts
-Alice FE<--Alice BE:posts
+activate Bob BE
+Alice BE<--Bob BE:Bob's posts
+deactivate Bob BE
+Alice FE<--Alice BE:Merged posts list
+deactivate Alice BE
 ```
