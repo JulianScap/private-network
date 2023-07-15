@@ -44,3 +44,36 @@ openssl req -key domain.key -new -out domain.csr
 openssl x509 -signkey domain.key -in domain.csr -req -days 365 -out domain.crt
 openssl pkcs12 -inkey domain.key -in domain.crt -export -out domain.pfx
 ```
+
+# Add friend
+
+https://sequencediagram.org/
+
+```
+title Add friend
+
+participant Alice FE
+participant Alice BE
+
+participant Bob FE
+participant Bob BE
+
+Alice FE->Alice BE:Create a friend request
+Alice BE->Alice BE:Create db record\nGenerate a token for Bob
+Alice BE->Bob BE:Send token to Bob
+Bob BE->Bob BE:Create db record
+
+
+==Bob accepts the request==
+Bob FE->Bob BE:Accept
+Bob BE->Bob BE:Generate a token\nUpdate database
+Bob BE->Alice BE:Share the token with Alice
+
+
+==Alice browses her posts==
+
+Alice FE->Alice BE:GET /posts
+Alice BE->Alice BE:Get own posts
+Alice BE->Bob BE:Get Bob's posts
+Alice FE<--Alice BE:posts
+```

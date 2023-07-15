@@ -1,6 +1,6 @@
 <map version="1.0.1">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
-<node CREATED="1688251898410" ID="ID_644484340" MODIFIED="1688349765723" TEXT="Private Network">
+<node CREATED="1688251898410" ID="ID_644484340" MODIFIED="1689413117196" TEXT="Private Network">
 <font NAME="Arial" SIZE="12"/>
 <node CREATED="1688252319568" ID="ID_1250729957" MODIFIED="1688252746173" POSITION="right" TEXT="Front End">
 <font NAME="Arial" SIZE="12"/>
@@ -119,7 +119,7 @@
 <node CREATED="1688349864575" ID="ID_632356982" MODIFIED="1688349868934" TEXT="Public key to validate"/>
 </node>
 </node>
-<node CREATED="1688349825114" ID="ID_1315238465" MODIFIED="1688349831385" TEXT="https"/>
+<node CREATED="1688349825114" ID="ID_1315238465" MODIFIED="1689413121484" TEXT="https"/>
 </node>
 </node>
 </map>
