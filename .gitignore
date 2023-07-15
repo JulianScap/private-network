@@ -5,6 +5,7 @@ scripts/*
 .keys/
 database/db/
 .license
+front-end/public/backend
 
 # Logs
 logs
