@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export DOMAIN=pn.co.nz
-export USER_NAME=alice
+DOMAIN=pn.co.nz
+USER_NAME=alice
 
 export FE_HOST=0.0.0.0
 export FE_PORT=5173
@@ -10,4 +10,3 @@ export FE_PORT=5173
 export VITE_BACK_END=http://$USER_NAME.be.$DOMAIN:51055
 
 nvm use && yarn --cwd ../front-end/ dev
-

@@ -1,4 +1,5 @@
 #!/bin/sh
+
 DOMAIN=pn.co.nz
 USER_NAME=alice
 
@@ -11,5 +12,3 @@ export BE_PORT=51055
 export BE_HOST=0.0.0.0
 
 nvm use && yarn --cwd ../back-end/ dev
-
-
