@@ -1,6 +1,6 @@
 import { validateToken } from '../auth/validateToken.js';
 import Logger from '../common/Logger.js';
-import Config from '../common/config.js';
+import Config from '../common/Config.js';
 import { forbidden } from '../common/response.js';
 
 /**
@@ -17,7 +17,7 @@ export const authCheck = (validateAudience) => {
     const tokenString = authorization?.replace('Bearer ', '');
 
     const [valid, token] = validateToken(tokenString);
-    if (valid && (!validateAudience || token.aud === Config.frontEnd)) {
+    if (valid && (!validateAudience || token.aud === Config.frontEndUri)) {
       return next();
     }
 

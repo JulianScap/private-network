@@ -3,8 +3,9 @@ import { v4 } from 'uuid';
 
 import { badRequest } from './response.js';
 import Logger from './Logger.js';
+import Config from './Config.js';
 
-const store = new DocumentStore('http://localhost:8080', 'privateNetwork');
+const store = new DocumentStore(Config.databaseUri, Config.databaseName);
 
 store.conventions.documentIdGenerator = (_, entity) => {
   if (!entity) {

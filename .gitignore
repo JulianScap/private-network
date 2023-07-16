@@ -1,6 +1,4 @@
 node_modules/
-scripts/*
-!scripts/rc.sh
 .env
 .keys/
 database/db/

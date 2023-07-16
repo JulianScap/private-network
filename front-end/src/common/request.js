@@ -7,7 +7,7 @@ export const post = async (route, body, authenticated = true) => {
     headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
   }
 
-  return fetch(`${import.meta.env.VITE_BACKEND}/${route}`, {
+  return fetch(`${import.meta.env.VITE_BACK_END}/${route}`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers,
@@ -21,5 +21,5 @@ export const get = async (route, authenticated = true) => {
     headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
   }
 
-  return fetch(`${import.meta.env.VITE_BACKEND}/${route}`, { headers }).then((r) => r.json());
+  return fetch(`${import.meta.env.VITE_BACK_END}/${route}`, { headers }).then((r) => r.json());
 };

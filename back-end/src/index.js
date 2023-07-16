@@ -7,9 +7,9 @@ import Posts from './posts/posts.route.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { logRequest } from './middlewares/logRequest.js';
 import Logger from './common/Logger.js';
+import Config from './common/Config.js';
 
 const app = new Koa();
-const port = 51055;
 
 app.use(bodyParser());
 app.use(cors());
@@ -20,6 +20,6 @@ app.use(logRequest);
 app.use(Auth.routes(), Auth.allowedMethods());
 app.use(Posts.routes(), Posts.allowedMethods());
 
-app.listen(port);
+app.listen(Config.port);
 
-Logger.info(`Listening on port ${port}`);
+Logger.info(`Listening on port ${Config.port}`);
