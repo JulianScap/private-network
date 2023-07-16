@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import Logger from './Logger.js';
 
 const { BACK_END_URI, FRONT_END_URI, DATABASE_NAME, DATABASE_URI, BE_PORT } = process.env;
