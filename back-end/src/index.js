@@ -20,6 +20,9 @@ app.use(logRequest);
 app.use(Auth.routes(), Auth.allowedMethods());
 app.use(Posts.routes(), Posts.allowedMethods());
 
-app.listen(Config.port);
+app.listen({
+  host: Config.host,
+  port: Config.port,
+});
 
 Logger.info(`Listening on port ${Config.port}`);
