@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import bcrypt from 'bcrypt';
 import { setTimeout } from 'timers/promises';
 
-import { generateToken } from './generateToken.js';
+import { generateToken } from '../common/generateToken.js';
 import { ok, badRequest, conflict } from '../common/response.js';
 import Logger from '../common/Logger.js';
 import DB from '../common/database.js';

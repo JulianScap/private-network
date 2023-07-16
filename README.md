@@ -76,7 +76,9 @@ Bob BE->Bob BE:Generate a token\nUpdate database
 Bob BE->Alice BE:Share the token with Alice
 activate Alice BE
 Alice BE->Alice BE:Update DB\nSave token
+Bob BE<--Alice BE:OK
 deactivate Alice BE
+Bob FE<--Bob BE:OK
 deactivate Bob BE
 
 

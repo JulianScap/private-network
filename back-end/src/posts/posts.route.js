@@ -11,10 +11,9 @@ const router = new Router({
   prefix: '/posts',
 });
 
-router.use(authCheck);
 router.use(sanitizeResponse);
 
-router.get('/', async (context) => {
+router.get('/', authCheck(false), async (context) => {
   const session = DB.openSession();
 
   const posts = await session
@@ -29,7 +28,7 @@ router.get('/', async (context) => {
   ok(context, posts);
 });
 
-router.post('/', async (context) => {
+router.post('/', authCheck(false), async (context) => {
   Logger.info('Saving post');
   const post = context.request.body;
   if (!post?.message) {
@@ -52,7 +51,7 @@ router.post('/', async (context) => {
   ok(context);
 });
 
-router.delete('/', async (context) => {
+router.delete('/', authCheck(true), async (context) => {
   const { postId } = context.query;
 
   Logger.info(`Deleting post ${postId}`);

@@ -1,12 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
-import { readFileSync } from 'fs';
 
-import config from '../common/config.js';
+import config from './config.js';
+import { privateKey } from './security.js';
 
-const privateKey = readFileSync('.keys/private-key.pem');
-
-export const generateToken = (login) => {
+export const generateToken = (login, audience) => {
   const ticks = Date.now() / 1000;
   const oneHourInMinutes = 60 * 60;
 
@@ -14,7 +12,7 @@ export const generateToken = (login) => {
     iss: config.domain, // issuer
     sub: login, // the user id
     name: login,
-    aud: 'https://www.private-network.com', // who is the token for
+    aud: audience || config.frontEnd, // who is the token for
     exp: Math.floor(ticks) + oneHourInMinutes, // expiry ticks
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before
