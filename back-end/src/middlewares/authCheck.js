@@ -9,7 +9,7 @@ import { forbidden } from '../common/response.js';
  * @returns A Promise
  * @throws If the token is missing or invalid
  */
-export const authCheck = (validateAudience) => {
+export const authCheck = (validateAudience = true) => {
   return (ctx, next) => {
     Logger.info('Validating token');
 

@@ -25,7 +25,7 @@ function addLink() {
       <div class="w-100 rounded-2 p-4 border text-secondary border-secondary">
         <label class="d-block mb-4">
           <span class="form-label d-block text-light">Link Uri</span>
-          <input name="linkUri" type="text" class="form-control text-light" v-model="link.uri" />
+          <input name="linkUri" type="url" class="form-control text-light" v-model="link.uri" />
         </label>
 
         <div class="mb-3">

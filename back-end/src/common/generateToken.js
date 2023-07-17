@@ -1,10 +1,10 @@
+import { randomUUID } from 'node:crypto';
 import jwt from 'jsonwebtoken';
-import { randomUUID } from 'crypto';
 
 import config from './Config.js';
 import { privateKey } from './security.js';
 
-export const generateToken = (login, audience) => {
+export const generateToken = (login, audience, tokenId) => {
   const ticks = Date.now() / 1000;
   const oneYearInMinutes = 60 * 60 * 24 * 365;
 
@@ -16,7 +16,7 @@ export const generateToken = (login, audience) => {
     exp: Math.floor(ticks) + oneYearInMinutes, // expiry ticks
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before
-    jti: randomUUID(),
+    jti: tokenId || randomUUID(),
     data: { some: 'information' },
   };
 

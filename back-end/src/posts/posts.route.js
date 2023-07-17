@@ -51,7 +51,7 @@ router.post('/', authCheck(false), async (context) => {
   ok(context);
 });
 
-router.delete('/', authCheck(true), async (context) => {
+router.delete('/', authCheck(), async (context) => {
   const { postId } = context.query;
 
   Logger.info(`Deleting post ${postId}`);

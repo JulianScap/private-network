@@ -3,6 +3,7 @@ import cors from '@koa/cors';
 import bodyParser from 'koa-bodyparser';
 
 import Auth from './auth/auth.route.js';
+import Links from './links/links.route.js';
 import Posts from './posts/posts.route.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { logRequest } from './middlewares/logRequest.js';
@@ -18,6 +19,7 @@ app.use(errorHandler);
 app.use(logRequest);
 
 app.use(Auth.routes(), Auth.allowedMethods());
+app.use(Links.routes(), Links.allowedMethods());
 app.use(Posts.routes(), Posts.allowedMethods());
 
 app.listen({
