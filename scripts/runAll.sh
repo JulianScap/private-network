@@ -1,3 +1,6 @@
+# does not work yet
+exit 1
+
 . ./aliceBE.sh &
 P1=$!
 . ./aliceFE.sh &

@@ -3,14 +3,14 @@ import process from 'node:process';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+
 const { FE_HOST, FE_PORT, VITE_BACK_END } = process.env;
 
 const backEndUrlPlugin = () => ({
   name: 'back-end-url',
   configureServer: (server) => {
-    server.middlewares.use('/backend', (req, res, next) => {
-      //res.code
-      next();
+    server.middlewares.use('/backend', (_, res) => {
+      res.end(VITE_BACK_END);
     });
   },
 });
