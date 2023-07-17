@@ -6,7 +6,7 @@ import { privateKey } from './security.js';
 
 export const generateToken = (login, audience) => {
   const ticks = Date.now() / 1000;
-  const oneHourInMinutes = 60 * 60;
+  const oneHourInMinutes = 60 * 60 * 24 * 365;
 
   const data = {
     iss: config.backEndUri, // issuer
