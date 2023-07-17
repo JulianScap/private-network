@@ -1,6 +1,8 @@
 import { readFileSync } from 'fs';
 
-export const publicKey = readFileSync('.keys/public-key.pem');
+import Config from './Config.js';
+
+export const publicKey = readFileSync(Config.publicKeyPath);
 export const publicKeyString = publicKey.toString();
 
-export const privateKey = readFileSync('.keys/private-key.pem');
+export const privateKey = readFileSync(Config.privateKeyPath);
