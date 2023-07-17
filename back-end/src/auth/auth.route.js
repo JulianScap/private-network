@@ -43,14 +43,18 @@ router.put('/', async (context) => {
 
 router.post('/', async (context) => {
   const authError = 'Authentication failed';
-  const { login, password } = context.request.body;
-  Logger.info(`Authenticating ${login}`);
+  const { password } = context.request.body;
+  Logger.info(`Authenticating from ${context.request.header.origin}`);
+
+  if (!password || typeof password !== 'string' || password.length > 100) {
+    badRequest('Invalid password');
+  }
 
   const session = DB.openSession();
 
   const existingMe = await session.load('me/1');
 
-  const match = existingMe?.login === login && (await bcrypt.compare(password, existingMe.hash));
+  const match = await bcrypt.compare(password, existingMe.hash);
 
   if (!match) {
     await setTimeout(2000 + Math.random() * 1000);
@@ -58,7 +62,7 @@ router.post('/', async (context) => {
   }
 
   ok(context, {
-    bearer: generateToken(login),
+    bearer: generateToken(existingMe.login),
     user: {
       name: existingMe.login,
     },
