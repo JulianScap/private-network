@@ -3,12 +3,21 @@ import process from 'node:process';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+const { FE_HOST, FE_PORT, VITE_BACK_END } = process.env;
 
-const { FE_HOST, FE_PORT } = process.env;
+const backEndUrlPlugin = () => ({
+  name: 'back-end-url',
+  configureServer: (server) => {
+    server.middlewares.use('/backend', (req, res, next) => {
+      //res.code
+      next();
+    });
+  },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [backEndUrlPlugin(), vue()],
   server: {
     host: FE_HOST,
     port: FE_PORT,

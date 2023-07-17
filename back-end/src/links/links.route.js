@@ -21,6 +21,8 @@ router.put('/', authCheck(), async (context) => {
   const tokenId = randomUUID();
   const token = generateToken(linkRequest.uri, linkRequest.uri, tokenId);
 
+  
+
   const session = DB.openSession();
 
   await session.store({
