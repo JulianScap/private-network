@@ -6,14 +6,14 @@ import { privateKey } from './security.js';
 
 export const generateToken = (login, audience) => {
   const ticks = Date.now() / 1000;
-  const oneHourInMinutes = 60 * 60 * 24 * 365;
+  const oneYearInMinutes = 60 * 60 * 24 * 365;
 
   const data = {
     iss: config.backEndUri, // issuer
     sub: login, // the user id
     name: login,
     aud: audience || config.frontEndUri, // who is the token for
-    exp: Math.floor(ticks) + oneHourInMinutes, // expiry ticks
+    exp: Math.floor(ticks) + oneYearInMinutes, // expiry ticks
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before
     jti: randomUUID(),
