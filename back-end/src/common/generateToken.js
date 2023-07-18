@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import jwt from 'jsonwebtoken';
 
-import config from './Config.js';
+import Config from './Config.js';
 import { privateKey } from './security.js';
 
 export const generateToken = (login, audience, tokenId) => {
@@ -9,10 +9,10 @@ export const generateToken = (login, audience, tokenId) => {
   const oneYearInMinutes = 60 * 60 * 24 * 365;
 
   const data = {
-    iss: config.backEndUri, // issuer
+    iss: Config.backEndUri, // issuer
     sub: login, // the user id
     name: login,
-    aud: audience || config.frontEndUri, // who is the token for
+    aud: audience || Config.frontEndUri, // who is the token for
     exp: Math.floor(ticks) + oneYearInMinutes, // expiry ticks
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before

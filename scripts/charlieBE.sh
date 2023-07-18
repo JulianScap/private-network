@@ -4,8 +4,10 @@ DOMAIN=pn.co.nz
 USER_NAME=charlie
 
 # Back end
-export FRONT_END_URI=http://$USER_NAME.$DOMAIN
-export BACK_END_URI=http://$USER_NAME.be.$DOMAIN
+export BE_PORT=51057
+export FE_PORT=5175
+export FRONT_END_URI=http://$USER_NAME.$DOMAIN:$FE_PORT
+export BACK_END_URI=http://$USER_NAME.be.$DOMAIN:$BE_PORT
 export DATABASE_NAME=$USER_NAME-db
 export DATABASE_URI=http://localhost:8080
 export BE_PORT=51057
