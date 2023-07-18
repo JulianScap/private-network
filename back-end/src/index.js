@@ -22,6 +22,8 @@ app.use(Auth.routes(), Auth.allowedMethods());
 app.use(Links.routes(), Links.allowedMethods());
 app.use(Posts.routes(), Posts.allowedMethods());
 
+Logger.info(`Configuration ${JSON.stringify(Config, null, 2)}`);
+
 app.listen({
   host: Config.host,
   port: Config.port,

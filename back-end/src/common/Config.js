@@ -1,7 +1,5 @@
 import process from 'node:process';
 
-import Logger from './Logger.js';
-
 const {
   BACK_END_URI,
   FRONT_END_URI,
@@ -23,7 +21,5 @@ const Config = {
   privateKeyPath: PRIVATE_KEY_PATH,
   publicKeyPath: PUBLIC_KEY_PATH,
 };
-
-Logger.info(`Configuration ${JSON.stringify(Config, null, 2)}`);
 
 export default Config;

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import DB from '../common/database.js';
 import Logger from '../common/Logger.js';
-import { ok } from '../common/response.js';
+import { badRequest, ok } from '../common/response.js';
 import { authCheck } from '../middlewares/authCheck.js';
 import { sanitizeResponse } from '../middlewares/sanitizeResponse.js';
 import { generateToken } from '../common/generateToken.js';
@@ -15,13 +15,15 @@ const router = new Router({
 
 router.use(sanitizeResponse);
 
-async function saveLink(tokenId, token, uri) {
+async function saveLink(tokenId, token, uri, status) {
+  Logger.info(`Saving link for ${uri}`);
   const session = DB.openSession();
 
   await session.store({
     tokenId,
     token,
     uri,
+    status,
     '@metadata': {
       '@collection': 'links',
     },
@@ -32,7 +34,7 @@ async function saveLink(tokenId, token, uri) {
 
 async function getBeUri(feUri) {
   const fetchUri = new URL('backend_uri', feUri).href;
-  Logger.info(`Fetching at ${fetchUri}`);
+  Logger.info(`Fetching brUri at ${fetchUri}`);
 
   const response = await fetch(fetchUri);
   const { uri: beUrl } = await response.json();
@@ -42,7 +44,10 @@ async function getBeUri(feUri) {
 async function shareToken(token, feUri) {
   const beUri = await getBeUri(feUri);
 
-  await fetch(new URL('links/new', beUri).href, {
+  const linkUri = new URL('links/new', beUri).href;
+  Logger.info(`Sending request to ${linkUri}`);
+
+  await fetch(linkUri, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -57,7 +62,7 @@ router.put('/', authCheck(), async (context) => {
   const tokenId = randomUUID();
   const token = generateToken(linkRequest.uri, linkRequest.uri, tokenId);
 
-  await saveLink(tokenId, token, linkRequest.uri);
+  await saveLink(tokenId, null, linkRequest.uri, 'InviteSent');
 
   await shareToken(token, linkRequest.uri);
 
@@ -67,7 +72,7 @@ router.put('/', authCheck(), async (context) => {
 router.put('/new', async (context) => {
   const { authorization } = context.request.headers;
   const token = authorization.replace('Bearer ', '');
-  Logger.info(`Adding link ${token}`);
+  Logger.info('Creating link request');
   const decoded = jwt.decode(token, {
     algorithm: 'RS512',
   });
@@ -76,7 +81,17 @@ router.put('/new', async (context) => {
 
   const pkResponse = await fetch(new URL('auth/pk', decoded.iss).href).then((x) => x.json());
   const { key } = pkResponse.body;
-  Logger.info(`public key ${key}`);
+  Logger.info('Public key fetched');
+  try {
+    jwt.verify(token, key, {
+      algorithm: 'RS512',
+    });
+  } catch {
+    badRequest('The token verification failed');
+  }
+  Logger.info('The token is valid');
+
+  await saveLink(null, token, decoded.iss, 'Invited');
 
   ok(context);
 });

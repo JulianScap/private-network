@@ -1,9 +1,11 @@
 import { format, createLogger, transports } from 'winston';
 
+import Config from './Config.js';
+
 const { combine, timestamp, printf, colorize } = format;
 
 const customFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} | ${level} | ${message}`;
+  return `${timestamp} | ${Config.backEndUri} | ${level} | ${message}`;
 });
 
 const timestampFormat = 'YY/MM/DD HH:mm:ss';
@@ -19,15 +21,15 @@ const logger = createLogger({
         customFormat,
       ),
     }),
-    new transports.File({
-      format: combine(
-        timestamp({
-          format: timestampFormat,
-        }),
-        customFormat,
-      ),
-      filename: 'logs/combined.log',
-    }),
+    // new transports.File({
+    //   format: combine(
+    //     timestamp({
+    //       format: timestampFormat,
+    //     }),
+    //     customFormat,
+    //   ),
+    //   filename: 'logs/combined.log',
+    // }),
   ],
 });
 

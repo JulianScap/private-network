@@ -1,8 +1,7 @@
 import { DocumentStore } from 'ravendb';
-import { v4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 import { badRequest } from './response.js';
-import Logger from './Logger.js';
 import Config from './Config.js';
 
 const store = new DocumentStore(Config.databaseUri, Config.databaseName);
@@ -17,13 +16,11 @@ store.conventions.documentIdGenerator = (_, entity) => {
   }
 
   const collection = entity['@metadata']?.['@collection'];
-  const newId = v4();
   if (!collection) {
-    Logger.warn(`No collection specified for ${JSON.stringify(entity)}`);
-    return newId;
+    throw `No collection specified for ${JSON.stringify(entity)}`;
   }
 
-  return `${collection}/${newId}`;
+  return `${collection}/${randomUUID()}`;
 };
 
 store.initialize();
