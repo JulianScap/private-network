@@ -9,7 +9,7 @@ const { FE_HOST, FE_PORT, VITE_BACK_END } = process.env;
 const backEndUrlPlugin = () => ({
   name: 'back-end-url',
   configureServer: (server) => {
-    server.middlewares.use('/backend', (_, res) => {
+    server.middlewares.use('/backend_uri', (_, res) => {
       res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({

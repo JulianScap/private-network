@@ -11,11 +11,10 @@
     "node": "^20.2.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --strictPort",
     "build": "vite build",
-    "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path ../.gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
