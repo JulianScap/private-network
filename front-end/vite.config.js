@@ -10,7 +10,12 @@ const backEndUrlPlugin = () => ({
   name: 'back-end-url',
   configureServer: (server) => {
     server.middlewares.use('/backend', (_, res) => {
-      res.end(VITE_BACK_END);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(
+        JSON.stringify({
+          uri: VITE_BACK_END,
+        }),
+      );
     });
   },
 });
