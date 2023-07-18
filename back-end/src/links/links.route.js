@@ -55,7 +55,25 @@ async function shareToken(token, feUri) {
   });
 }
 
-router.put('/', authCheck(), async (context) => {
+router.get('/status/:status', authCheck(true), async (context) => {
+  const { status } = context.params;
+  Logger.info(`Getting links by status ${status}`);
+  const session = DB.openSession();
+
+  const links = await session
+    .query({ collection: 'links' })
+    .selectFields(['uri', 'status', 'id'])
+    .whereEquals('status', status)
+    .not()
+    .whereExists('@metadata.deleted')
+    .take(10)
+    .orderByDescending('@metadata.created')
+    .all();
+
+  ok(context, links);
+});
+
+router.put('/', authCheck(true), async (context) => {
   const linkRequest = context.request.body;
   Logger.info(`Adding link ${linkRequest.uri}`);
 
