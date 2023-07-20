@@ -7,7 +7,7 @@ const internalFetch = async (route, body, authenticated, method) => {
     headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
   }
 
-  const response = await fetch(`${import.meta.env.VITE_BACK_END}/${route}`, {
+  const response = await fetch(new URL(route, import.meta.env.VITE_BACK_END).href, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,

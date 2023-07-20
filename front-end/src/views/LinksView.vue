@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 
 import { useLinkStore } from '../stores/links.js';
 
@@ -9,6 +9,8 @@ const link = reactive({
   uri: 'http://bob.pn.co.nz:5174/',
 });
 
+const invites = reactive([]);
+
 function addLink() {
   try {
     new URL(link.uri);
@@ -17,6 +19,14 @@ function addLink() {
     console.error('Invalid Url', error);
   }
 }
+
+function accept(invite) {
+  return linkStore.accept(invite);
+}
+
+onMounted(async () => {
+  invites.push(...(await linkStore.getInvites()));
+});
 </script>
 
 <template>
@@ -32,6 +42,13 @@ function addLink() {
           <button type="submit" class="btn btn-primary" @click="addLink">Add Link</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div v-for="(invite, index) in invites" :key="index">
+    <span>From: {{ invite.uri.frontEnd }}</span>
+    <div class="btn-group" role="group">
+      <button class="btn btn-outline-success" @click="accept(invite)">Accept?</button>
+      <button class="btn btn-outline-danger">Decline</button>
     </div>
   </div>
 </template>
