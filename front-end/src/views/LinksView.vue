@@ -6,7 +6,7 @@ import { useLinkStore } from '../stores/links.js';
 const linkStore = useLinkStore();
 
 const link = reactive({
-  uri: 'http://bob.pn.co.nz/',
+  uri: 'http://bob.pn.co.nz:5174/',
 });
 
 function addLink() {

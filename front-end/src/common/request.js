@@ -1,4 +1,4 @@
-export const post = async (route, body, authenticated = true) => {
+const internalFetch = async (route, body, authenticated, method) => {
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -7,19 +7,23 @@ export const post = async (route, body, authenticated = true) => {
     headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
   }
 
-  return fetch(`${import.meta.env.VITE_BACK_END}/${route}`, {
-    method: 'POST',
-    body: JSON.stringify(body),
+  const response = await fetch(`${import.meta.env.VITE_BACK_END}/${route}`, {
+    method,
     headers,
-  }).then((r) => r.json());
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  return await response.json();
 };
 
-export const get = async (route, authenticated = true) => {
-  const headers = {};
+export const post = (route, body, authenticated = true) => {
+  return internalFetch(route, body, authenticated, 'POST');
+};
 
-  if (authenticated) {
-    headers['Authorization'] = `Bearer ${sessionStorage.getItem('bearer')}`;
-  }
+export const put = (route, body, authenticated = true) => {
+  return internalFetch(route, body, authenticated, 'PUT');
+};
 
-  return fetch(`${import.meta.env.VITE_BACK_END}/${route}`, { headers }).then((r) => r.json());
+export const get = async (route, body = null, authenticated = true) => {
+  return internalFetch(route, body, authenticated, 'GET');
 };

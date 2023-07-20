@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 
-import { post } from '../common/request.js';
+import { put } from '../common/request.js';
 
 export const useLinkStore = defineStore('links', () => {
   async function addLink(credentials) {
-    const response = await post('links', credentials);
+    const response = await put('links', credentials);
 
     const { error, body } = response;
     if (error) {
