@@ -1,13 +1,14 @@
-import { randomUUID, verify } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import Router from '@koa/router';
 import jwt from 'jsonwebtoken';
 
 import DB from '../common/database.js';
 import Logger from '../common/Logger.js';
 import { badRequest, ok } from '../common/response.js';
+import { generateToken } from '../common/generateToken.js';
+import Config from '../common/Config.js';
 import { authCheck } from '../middlewares/authCheck.js';
 import { sanitizeResponse } from '../middlewares/sanitizeResponse.js';
-import { generateToken } from '../common/generateToken.js';
 
 const router = new Router({
   prefix: '/links',
@@ -42,9 +43,11 @@ async function getBeUri(feUri) {
 }
 
 async function verifyLinkToken(issuer, token) {
-  Logger.info(`Verifying with ${JSON.stringify(issuer)}`);
+  const pkUrl = new URL('auth/pk', issuer).href;
 
-  const pkResponse = await fetch(new URL('auth/pk', issuer).href).then((x) => x.json());
+  Logger.info(`Verifying with ${issuer} as ${pkUrl}`);
+
+  const pkResponse = await fetch(pkUrl).then((x) => x.json());
   const { key } = pkResponse.body;
   Logger.info('Public key fetched');
   try {
@@ -82,25 +85,27 @@ router.put('/', authCheck(), async (context) => {
   const tokenId = randomUUID();
   const token = generateToken(linkRequest.uri, linkRequest.uri, tokenId);
 
-  await saveLink(tokenId, null, linkRequest.uri, 'InviteSent');
-
   const beUri = await getBeUri(linkRequest.uri);
-
   const linkUri = new URL('links/new', beUri).href;
   Logger.info(`Sending request to ${linkUri}`);
 
   await fetch(linkUri, {
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
-    method: 'PUT',
+    body: JSON.stringify({ frontEnd: Config.frontEndUri }),
   });
+
+  await saveLink(tokenId, null, { frontEnd: linkRequest.uri, backEnd: beUri }, 'InviteSent');
 
   ok(context);
 });
 
 router.put('/new', async (context) => {
   const { authorization } = context.request.headers;
+  const { frontEnd } = context.request.body;
   const token = authorization.replace('Bearer ', '');
   Logger.info('Creating link request');
   const decoded = jwt.decode(token, {
@@ -109,7 +114,7 @@ router.put('/new', async (context) => {
 
   await verifyLinkToken(decoded.iss, token);
 
-  await saveLink(null, token, decoded.iss, 'Invited');
+  await saveLink(null, token, { backEnd: decoded.iss, frontEnd }, 'Invited');
 
   ok(context);
 });
@@ -121,9 +126,9 @@ router.post('/accept/:id', authCheck(), async (context) => {
   const link = await session.load(id);
 
   const tokenId = randomUUID();
-  const token = generateToken(link.uri, link.uri, tokenId);
+  const token = generateToken(link.uri.backEnd, link.uri.backEnd, tokenId);
 
-  await fetch(new URL('links/accept', link.uri), {
+  await fetch(new URL('links/accept', link.uri.backEnd), {
     method: 'POST',
     body: JSON.stringify({ token }),
     headers: {
@@ -148,7 +153,7 @@ router.post('/accept', authCheck(false), async (context) => {
   const tokenId = context.state.token.jti;
   const link = await session.query({ collection: 'links' }).whereEquals('tokenId', tokenId).first();
 
-  await verifyLinkToken(link.uri, token);
+  await verifyLinkToken(link.uri.backEnd, token);
 
   link.status = 'Accepted';
   link.token = token;
