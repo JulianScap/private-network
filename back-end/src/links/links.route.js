@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUUID, verify } from 'node:crypto';
 import Router from '@koa/router';
 import jwt from 'jsonwebtoken';
 
@@ -41,21 +41,23 @@ async function getBeUri(feUri) {
   return beUrl;
 }
 
-async function shareToken(token, feUri) {
-  const beUri = await getBeUri(feUri);
+async function verifyLinkToken(issuer, token) {
+  Logger.info(`Verifying with ${JSON.stringify(issuer)}`);
 
-  const linkUri = new URL('links/new', beUri).href;
-  Logger.info(`Sending request to ${linkUri}`);
-
-  await fetch(linkUri, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    method: 'PUT',
-  });
+  const pkResponse = await fetch(new URL('auth/pk', issuer).href).then((x) => x.json());
+  const { key } = pkResponse.body;
+  Logger.info('Public key fetched');
+  try {
+    jwt.verify(token, key, {
+      algorithm: 'RS512',
+    });
+  } catch {
+    badRequest('The token verification failed');
+  }
+  Logger.info('The token is valid');
 }
 
-router.get('/status/:status', authCheck(true), async (context) => {
+router.get('/status/:status', authCheck(), async (context) => {
   const { status } = context.params;
   Logger.info(`Getting links by status ${status}`);
   const session = DB.openSession();
@@ -73,7 +75,7 @@ router.get('/status/:status', authCheck(true), async (context) => {
   ok(context, links);
 });
 
-router.put('/', authCheck(true), async (context) => {
+router.put('/', authCheck(), async (context) => {
   const linkRequest = context.request.body;
   Logger.info(`Adding link ${linkRequest.uri}`);
 
@@ -82,7 +84,17 @@ router.put('/', authCheck(true), async (context) => {
 
   await saveLink(tokenId, null, linkRequest.uri, 'InviteSent');
 
-  await shareToken(token, linkRequest.uri);
+  const beUri = await getBeUri(linkRequest.uri);
+
+  const linkUri = new URL('links/new', beUri).href;
+  Logger.info(`Sending request to ${linkUri}`);
+
+  await fetch(linkUri, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'PUT',
+  });
 
   ok(context);
 });
@@ -95,21 +107,52 @@ router.put('/new', async (context) => {
     algorithm: 'RS512',
   });
 
-  Logger.info(`Verifying with ${JSON.stringify(decoded.iss)}`);
-
-  const pkResponse = await fetch(new URL('auth/pk', decoded.iss).href).then((x) => x.json());
-  const { key } = pkResponse.body;
-  Logger.info('Public key fetched');
-  try {
-    jwt.verify(token, key, {
-      algorithm: 'RS512',
-    });
-  } catch {
-    badRequest('The token verification failed');
-  }
-  Logger.info('The token is valid');
+  await verifyLinkToken(decoded.iss, token);
 
   await saveLink(null, token, decoded.iss, 'Invited');
+
+  ok(context);
+});
+
+router.post('/accept/:id', authCheck(), async (context) => {
+  const { id } = context.params;
+
+  const session = DB.openSession();
+  const link = await session.load(id);
+
+  const tokenId = randomUUID();
+  const token = generateToken(link.uri, link.uri, tokenId);
+
+  await fetch(new URL('links/accept', link.uri), {
+    method: 'POST',
+    body: JSON.stringify({ token }),
+    headers: {
+      Authorization: `Bearer ${link.token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  link.status = 'Accepted';
+  link.tokenId = tokenId;
+  await session.saveChanges();
+
+  ok(context);
+});
+
+router.post('/accept', authCheck(false), async (context) => {
+  Logger.info(`Accepting a link, for token ${context.state.token.jti}`);
+
+  const session = DB.openSession();
+  const token = context.request.body.token;
+
+  const tokenId = context.state.token.jti;
+  const link = await session.query({ collection: 'links' }).whereEquals('tokenId', tokenId).first();
+
+  await verifyLinkToken(link.uri, token);
+
+  link.status = 'Accepted';
+  link.token = token;
+  await session.saveChanges();
 
   ok(context);
 });

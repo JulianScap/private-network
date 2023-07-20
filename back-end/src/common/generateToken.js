@@ -17,7 +17,6 @@ export const generateToken = (login, audience, tokenId) => {
     iat: Math.floor(ticks), // issued at
     nbf: Math.floor(ticks), // not before
     jti: tokenId || randomUUID(),
-    data: { some: 'information' },
   };
 
   return jwt.sign(data, privateKey, {

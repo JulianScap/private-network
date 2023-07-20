@@ -20,7 +20,7 @@ store.conventions.documentIdGenerator = (_, entity) => {
     throw `No collection specified for ${JSON.stringify(entity)}`;
   }
 
-  return `${collection}/${randomUUID()}`;
+  return `${collection}_${randomUUID()}`;
 };
 
 store.initialize();

@@ -18,6 +18,7 @@ export const authCheck = (validateAudience = true) => {
 
     const [valid, token] = validateToken(tokenString);
     if (valid && (!validateAudience || token.aud === Config.frontEndUri)) {
+      ctx.state.token = token;
       return next();
     }
 
