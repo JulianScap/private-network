@@ -48,6 +48,7 @@ openssl pkcs12 -inkey domain.key -in domain.crt -export -out domain.pfx
 # Add friend
 
 ## Alice creates the link
+
 ```mermaid
 sequenceDiagram
     box Purple Alice's Services
@@ -88,18 +89,22 @@ sequenceDiagram
     BB->>-BF:OK
 ```
 
-https://sequencediagram.org/
+## Alice browses her posts
 
-```
-==Alice browses her posts==
+```mermaid
+sequenceDiagram
+    box Purple Alice's Services
+        participant AF as Front End
+        participant AB as Back End
+    end
+    box Green Bob's Services
+        participant BF as Front End
+        participant BB as Back End
+    end
 
-Alice FE->Alice BE:GET /posts
-activate Alice BE
-Alice BE->Alice BE:Get own posts
-Alice BE->Bob BE:Get Bob's posts
-activate Bob BE
-Alice BE<--Bob BE:Bob's posts
-deactivate Bob BE
-Alice FE<--Alice BE:Merged posts list
-deactivate Alice BE
+    AF->>+AB:GET /posts
+    AB->>AB:Get own posts
+    AB->>+BB:Get Bob's posts
+    BB->>-AB:Bob's posts
+    AB->>-AF:Merged posts list
 ```
