@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { get, put } from '../common/request.js';
+import { get, post, put } from '../common/request.js';
 
 export const useLinkStore = defineStore('links', () => {
   async function addLink(credentials) {
@@ -23,8 +23,13 @@ export const useLinkStore = defineStore('links', () => {
     return body;
   }
 
+  async function accept(invite) {
+    await post(`links/accept/${invite.id}`);
+  }
+
   return {
     addLink,
     getInvites,
+    accept
   };
 });
