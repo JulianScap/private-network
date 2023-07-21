@@ -11,20 +11,6 @@ openssl genrsa -out private-key.pem 2048
 openssl rsa -in private-key.pem -out public-key.pem -pubout -outform PEM
 ```
 
-# Environment
-
-Create an `.env` file in `back-end` with the following:
-
-```properties
-DOMAIN=<the domain here>
-```
-
-Create an `.env` file in `front-end` with the following:
-
-```properties
-VITE_BACKEND=http://localhost:51055
-```
-
 # Deploy
 
 ```shell
@@ -34,7 +20,9 @@ yarn deploy
 
 # Database
 
-<!-- Source: https://www.baeldung.com/openssl-self-signed-cert -->
+`docker compose up -d` one of the `yaml` files in `database/`.
+
+<!-- Source: https://www.baeldung.com/openssl-self-signed-cert
 
 ```shell
 mkdir .keys
@@ -44,6 +32,7 @@ openssl req -key domain.key -new -out domain.csr
 openssl x509 -signkey domain.key -in domain.csr -req -days 365 -out domain.crt
 openssl pkcs12 -inkey domain.key -in domain.crt -export -out domain.pfx
 ```
+-->
 
 # Add friend
 
