@@ -47,41 +47,50 @@ openssl pkcs12 -inkey domain.key -in domain.crt -export -out domain.pfx
 
 # Add friend
 
+## Alice creates the link
+```mermaid
+sequenceDiagram
+    box Purple Alice's Services
+        participant AF as Front End
+        participant AB as Back End
+    end
+    box Green Bob's Services
+        participant BF as Front End
+        participant BB as Back End
+    end
+
+    AF->>+AB:Create a friend request
+    AB->>AB:Create db record<br/>Generate a token for Bob
+    AB->>+BB:Send token to Bob
+    BB->>BB:Create db record
+    BB->>-AB: OK
+    AB->>-AF:OK
+```
+
+## Bob accepts the invite link
+
+```mermaid
+sequenceDiagram
+    box Purple Alice's Services
+        participant AF as Front End
+        participant AB as Back End
+    end
+    box Green Bob's Services
+        participant BF as Front End
+        participant BB as Back End
+    end
+
+    BF->>+BB:Accept the friend request
+    BB->>BB:Generate a token<br/>Update database
+    BB->>+AB:Share the token with Alice
+    AB->>AB:Update DB<br/>Save token
+    AB->>-BB:OK
+    BB->>-BF:OK
+```
+
 https://sequencediagram.org/
 
 ```
-title Add friend
-
-participant Alice FE
-participant Alice BE
-
-participant Bob FE
-participant Bob BE
-
-Alice FE->Alice BE:Create a friend request
-activate Alice BE
-Alice BE->Alice BE:Create db record\nGenerate a token for Bob
-Alice BE->Bob BE:Send token to Bob
-activate Bob BE
-Bob BE->Bob BE:Create db record
-deactivate Bob BE
-Alice BE<--Bob BE: OK
-Alice FE<--Alice BE:OK
-deactivate Alice BE
-
-==Bob accepts the request==
-Bob FE->Bob BE:Accept
-activate Bob BE
-Bob BE->Bob BE:Generate a token\nUpdate database
-Bob BE->Alice BE:Share the token with Alice
-activate Alice BE
-Alice BE->Alice BE:Update DB\nSave token
-Bob BE<--Alice BE:OK
-deactivate Alice BE
-Bob FE<--Bob BE:OK
-deactivate Bob BE
-
-
 ==Alice browses her posts==
 
 Alice FE->Alice BE:GET /posts
